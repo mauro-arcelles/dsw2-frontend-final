@@ -1,0 +1,93 @@
+<div>
+
+    <form class="content" (ngSubmit)="inserta()"  [formGroup]="formsRegistra">
+    <div class="submit-form" >
+  
+         <div class="row">
+            <div class="col-lg-12">
+                <h6>Registro de Marca </h6>
+            </div>
+        </div>
+  
+        <div class="row" style="margin-top: 3%">
+                <div class="col-lg-3">
+                    <label for="nombre">Nombre de Marca</label>
+                    <input formControlName="validaNombre" type="text" class="form-control"  id="nombre" [(ngModel)] = "marcas.nombre" />
+                    <div *ngIf="submitted && formsRegistra.controls['validaNombre'].errors" class="invalid">
+                        <ul>
+                            <li>El nombre es obligatorio</li>    
+                            <li>El nombre es de 3 a 15 caracteres</li>    
+                        </ul>
+                     </div>
+                </div>
+            
+                <div class="col-lg-6">
+                    <label for="descripcion">Descripcion</label>
+                    <input formControlName="validaDescripcion" type="text" class="form-control"  id="descripcion" maxlength="100" [(ngModel)] = "marcas.descripcion" />
+                    <div *ngIf="submitted && formsRegistra.controls['validaDescripcion'].errors" class="invalid">
+                        <ul>
+                            <li>La Descripcion es obligatorio</li>
+                            <li>La Descripcion es de 3 a 30 caracteres</li>     
+                               
+                        </ul>
+                     </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <form name="formulario" method="post" action="/send.php" >
+                        <!-- Campo de entrada de fecha -->
+                        Selecciona la Fecha de Vigencia:
+                        <input type="date" class="form-control" name="fecha" [(ngModel)]="marcas.fechaVigencia"/>
+                      </form>
+                </div>
+         </div>
+  
+        <div class="row" style="margin-top: 3%"> 
+    
+        <div class="col-lg-3">
+                <label for="certificado">Certificado</label>
+                <input formControlName="validaCertificado" type="text"  class="form-control" id="certificado"   maxlength="9" [(ngModel)] = "marcas.certificado"/>
+                <div *ngIf="submitted && formsRegistra.controls['validaCertificado'].errors" class="invalid">
+                    <ul>
+                        <li>El Certificado es obligatorio</li> 
+                        <li>El Certificado es de 9 caracteres</li> 
+                        <li>El Certificado empieza con Letra Mayuscula</li>    
+                           
+                    </ul>
+                 </div>
+            </div>
+
+
+            
+
+            <div class="col-lg-3">
+                <label for="pais">Pais</label>
+                <select  formControlName="validaPais" id="pais"  class="form-control" [(ngModel)] = "marcas.pais!.idPais">
+                    <option value="-1"> [Seleccione] </option>
+                    <option *ngFor="let aux of paises" value="{{ aux.idPais }}">  
+                        {{ aux.nombre}}
+                    </option>                                 
+                </select>
+                <div *ngIf="submitted && formsRegistra.controls['validaPais'].errors" class="invalid">
+                    <ul>
+                        <li>El Pais es obligatorio</li> 
+                        <li>Seleccione un Pais</li>                                                 
+                           
+                    </ul>
+                 </div>
+            </div>
+        </div>
+  
+        <div class="row" style="margin-top: 3%"> 
+                <div class="col-lg-12">
+                    <button class="btn btn-success"  >Enviar</button>
+                </div>
+        </div>
+  
+    
+      </div>
+  
+     </form>
+  
+  
+    </div>

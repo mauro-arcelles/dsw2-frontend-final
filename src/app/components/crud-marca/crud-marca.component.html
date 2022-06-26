@@ -1,0 +1,284 @@
+
+<div class="container" >
+    <h5>CRUD DE MARCA</h5>
+
+    <div class="col-md-23" style="margin-top: 3%">
+
+
+        <div class="row" style="height: 80px">
+            <div class="col-md-4">
+                <input [(ngModel)] = "filtro"  class="form-control"  id="id_txt_filtro" name="filtro" placeholder="Ingrese el nombre" type="text" maxlength="30" />
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-primary" id="id_btn_filtrar" style="width: 150px" (click)="consultaCrudMarca()">Filtrar</button>
+            </div>
+            <div class="col-md-2">
+                <button  type="button" data-toggle='modal' data-target="#idModalRegistrar" class='btn btn-success' style="width: 150px">Registrar</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="content">
+
+                    <table id="id_table" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%">#</th>
+                                <th style="width: 10%">Nombre</th>
+                                <th style="width: 35%">Descripcion</th>
+                                <th style="width: 10%">Certificado</th>                                
+                                <th style="width: 15%">Estado</th>
+                                <th style="width: 10%">Pais</th>
+                                <th style="width: 5%"></th>
+                                <th style="width: 5%"></th>
+                                <th style="width: 5%"></th>
+                                
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let aux of marcas">
+                                <td>{{ aux.idMarca}}</td>
+                                <td>{{ aux.nombre }}</td>
+                                <td>{{ aux.descripcion }}</td>
+                                <td>{{ aux.certificado }}</td>                                                  
+                                <td>{{ aux.estado == 1 ? "Activo" : "Inactivo" }}</td>
+                                <td>{{ aux.pais!.nombre }}</td>  
+                                <td>
+
+                                    <div class="custom-control custom-switch">
+                                       <input type="checkbox" class="custom-control-input" id="id_{{ aux.idMarca}}" [checked]="(aux.estado==0)?false:true"   name="estado" (change)="cambiarEstadoMarca(aux) "/>
+                                       <label class="custom-control-label" for="id_{{ aux.idMarca}}"></label>
+                                   </div>
+
+                               </td> 
+                               
+                                <td><button type="button" style="width: 90px" class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#idModalActualizar" (click)="buscarMarca(aux)" >Actualizar</button></td>
+                                <td><button type="button" style="width: 90px" class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#idModalEliminar" (click)="eliminarMarcaPorIdMarca(aux)" >ELIMINAR</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade"  id="idModalRegistrar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog" style="max-width: 70%;">
+            <div class="modal-content" >
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Registro de Marca</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <form class="content"  (ngSubmit)="registraCrudMarca()" [formGroup]="formsRegistra">
+                        <div class="submit-form">
+                            
+                                <div  class="row">
+                                    <div class="col-lg-4">
+                                        <label for="id_reg_nombre">Nombre</label>
+                                        <input formControlName="validaNombre" [(ngModel)]="marca.nombre" type="text" placeholder="Ingrese el nombre" class="form-control" id="id_reg_nombre" />
+                                        <div *ngIf="submitted && formsRegistra.controls['validaNombre'].errors" class="invalid">
+                                            <ul>
+                                                <li>El nombre es obligatorio</li>    
+                                                <li>El nombre es de 3 a 15 caracteres</li>    
+                                            </ul>
+                                         </div>
+                                    </div>
+
+                                    
+                                   
+                                    <div class="col-lg-4">
+                                        <label for="id_reg_pais">Pais</label>
+                                        <select formControlName="validaPais" id="id_reg_pais" class="form-control" [(ngModel)]="marca.pais!.idPais">
+                                            <option value="-1">[Seleccione]</option>
+                                            <option *ngFor="let aux of pais" value="{{ aux.idPais}}">
+                                                {{ aux.nombre }}
+                                            </option>
+                                        </select>
+                                        <div *ngIf="submitted && formsRegistra.controls['validaPais'].errors" class="invalid">
+                                            <ul>
+                                                <li>El Pais es obligatorio</li> 
+                                                <li>Seleccione un Pais</li>                                                 
+                                                   
+                                            </ul>
+                                         </div>
+                                    </div> 
+                                    
+                                    <div class="col-lg-4">
+                                        <label for="id_reg_certificado">Certificado</label>
+                                        <input formControlName="validaCertificado" [(ngModel)]="marca.certificado" type="text" placeholder="Ingrese el certificado" class="form-control" id="id_reg_certificado"  maxlength="9"/>
+                                        <div *ngIf="submitted && formsRegistra.controls['validaCertificado'].errors" class="invalid">
+                                            <ul>
+                                                <li>El Certificado es obligatorio</li> 
+                                                <li>El Certificado es de 9 caracteres</li> 
+                                                <li>El Certificado empieza con Letra Mayuscula</li>    
+                                                   
+                                            </ul>
+                                         </div>
+                                    </div>
+
+                                    
+
+                                </div>
+
+
+                                <div class="row" style="margin-top: 5%">
+                                    <div class="col-lg-10">
+                                        <label for="id_reg_descripcion">Descripcion</label>
+                                        <input  formControlName="validaDescripcion" [(ngModel)]="marca.descripcion" t type="text" placeholder="Ingrese Descripcion" class="form-control" id="id_reg_descripcion"  />
+                                        <div *ngIf="submitted && formsRegistra.controls['validaDescripcion'].errors" class="invalid">
+                                            <ul>
+                                                <li>La Descripcion es obligatorio</li>
+                                                <li>La Descripcion es de 3 a 60 caracteres</li>     
+                                                   
+                                            </ul>
+                                         </div>
+                                    </div>
+                                    
+                                
+                                
+                                </div>
+
+                        </div> 
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn_reg_cerrar" style="width: 100px;">Close</button>
+                            <div class="form-group text-center">
+                                <div class="col-lg-12">
+                                    <button id="id_reg_registra"  class="btn btn-success form-control"style="width: 100px;">Registrar</button>
+                                </div>
+                            </div>
+                        </div>
+
+               
+                    </form>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="idModalActualizar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 80%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Actualización de docente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                     </button>
+                </div>
+                <div class="modal-body">
+
+                    <form class="content" (ngSubmit)="actualizarCrudMarca()" [formGroup]="formsActualiza">
+                        <div class="submit-form">
+
+                            <div  class="row">
+                                <div class="col-lg-4">
+                                    <label for="id_act_nombre">Nombre</label>
+                                    <input formControlName="validaNombre" [(ngModel)]="marca.nombre"  type="text" placeholder="Ingrese el nombre" class="form-control" id="id_act_nombre" />
+                                    <div *ngIf="submitted && formsActualiza.controls['validaNombre'].errors" class="invalid">
+                                        <ul>
+                                            <li>El nombre es obligatorio</li>    
+                                            <li>El nombre es de 3 a 15 caracteres</li>    
+                                        </ul>
+                                     </div>
+                                </div>
+    
+                                <div class="col-lg-4">
+                                    <label  for="id_act_estado">Estado</label>
+                                    <select formControlName="validaEstado" [(ngModel)]="marca.estado"  id="id_act_estado" class="form-control">
+                                        <option value="-1"> [Seleccione] </option>
+                                        <option value="1"> Activo </option>
+                                        <option value="0"> Inactivo </option>
+                                    </select>
+                                    <div *ngIf="submitted && formsActualiza.controls['validaEstado'].errors" class="invalid">
+                                        <ul>
+                                            <li>El Estado es obligatorio</li> 
+                                            <li>Seleccione un Estado</li>    
+                                               
+                                        </ul>
+                                     </div>
+                                </div>
+
+                               
+                                <div class="col-lg-4">
+                                    <label for="id_reg_pais">Pais</label>
+                                    <select formControlName="validaPais" id="pais" class="form-control" [(ngModel)]="marca.pais!.idPais">
+                                        <option value="-1">[Seleccione]</option>
+                                        <option *ngFor="let aux of pais" value="{{ aux.idPais}}">
+                                            {{ aux.nombre }}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted && formsActualiza.controls['validaPais'].errors" class="invalid">
+                                        <ul>
+                                            <li>El Pais es obligatorio</li> 
+                                            <li>Seleccione un Pais</li>                                                 
+                                               
+                                        </ul>
+                                     </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <label for="id_reg_certificado">Certificado</label>
+                                    <input formControlName="validaCertificado" [(ngModel)]="marca.certificado" type="text" placeholder="Ingrese el certificado" class="form-control" id="id_reg_certificado"  maxlength="9"/>
+                                    <div *ngIf="submitted && formsActualiza.controls['validaCertificado'].errors" class="invalid">
+                                        <ul>
+                                            <li>El Certificado es obligatorio</li> 
+                                            <li>El Certificado es de 9 caracteres</li> 
+                                            <li>El Certificado empieza con Letra Mayuscula</li>    
+                                               
+                                        </ul>
+                                     </div>
+                                </div>
+                                
+                            </div>
+    
+    
+                            <div class="row" style="margin-top: 5%">
+                                <div class="col-lg-10">
+                                    <label for="id_act_descripcion">Descripcion</label>
+                                    <input formControlName="validaDescripcion" [(ngModel)]="marca.descripcion"  type="text" placeholder="Ingrese Descripcion" class="form-control" id="id_act_descripcion"  />
+                                    <div *ngIf="submitted && formsActualiza.controls['validaDescripcion'].errors" class="invalid">
+                                        <ul>
+                                            <li>La Descripcion es obligatorio</li>
+                                            <li>La Descripcion es de 3 a 60 caracteres</li>     
+                                               
+                                        </ul>
+                                     </div>
+                                </div>
+                                
+                            </div> 
+
+
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn_act_cerrar">Close</button>
+                            <div class="form-group text-center">
+                                <div class="col-lg-12">
+                                    <button id="id_act_actualiza" class="btn btn-success form-control">Actualizar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>

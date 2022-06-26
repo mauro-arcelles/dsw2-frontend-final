@@ -1,0 +1,99 @@
+<div>
+
+    <form class="content" (ngSubmit)="consultaMarca()">
+  
+  
+        <div class="submit-form">
+  
+            <div class="row">
+                <div class="col-lg-12">
+                    <h6>Consulta de Marca</h6>
+                </div>
+            </div>
+    
+            <div class="row" style="margin-top: 2%">
+                <label for="dni" class="col-lg-1">Nombre</label>
+                <div class="col-lg-2">
+                    <input type="text" class="form-control" name="nombre" id="nombre" [(ngModel)]="nombre" />
+                </div>
+                <label for="dni" class="col-lg-1">Descripcion</label>
+                <div class="col-lg-2">
+                    <input type="text" class="form-control" name="descripcion" id="descripcion" [(ngModel)]="descripcion" />
+                </div>
+
+                <label for="pais" class="col-lg-1">Pais</label>
+                
+                <div class="col-lg-2">
+                    <select id="pais" name="pais" class="form-control" [(ngModel)]="selPais">
+                        <option value="-1">[Seleccione]</option>
+                        <option *ngFor="let mar of pais" value="{{ mar.idPais}}">
+                            {{ mar.nombre }}
+                        </option>
+                    </select>
+                </div>
+                       
+                <button style="margin-left: 10%" class="btn btn-success">Filtrar</button>
+                
+            </div>
+    
+                        
+
+            <div class="row" style="margin-top: 2%">
+                <label for="dni" class="col-lg-2">Fecha Inicio</label>
+                <div class="col-lg-3">
+                    <input type="date" class="form-control" name="fecInicio" id="fecInicio"  [(ngModel)]= "fecInicio" />
+                </div>
+                <label for="dni" class="col-lg-2">Fecha Fin</label>
+                <div class="col-lg-3">
+                    <input type="date" class="form-control" name="fecFin" id="fecFin"  [(ngModel)]= "fecFin" />
+                </div>
+
+                <label class="switchBtn">
+                    <input type="checkbox" [(ngModel)]="estado" name="estado">
+                    <div class="slide round">ESTADO ON</div>
+                </label>
+            </div>
+
+            
+    
+           
+    
+    
+    
+            <div class="row" style="margin-top: 3%">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>DESCRIPCION</th>
+                            <th>PAIS</th>
+                            <th>ESTADO</th>
+                            <th>FECHA REGISTRO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor= "let mar of marcas">
+                            <td>{{ mar.idMarca}}</td>
+                            <td>{{ mar.nombre }}</td>
+                            <td>{{ mar.descripcion }}</td>
+                            <td>{{ mar.pais?.nombre }}</td>
+                            <td>{{ mar.estado == 1 ? 'Activo' : 'Inactivo' }}</td>
+                            <td>{{ mar.fechaVigencia }}</td> 
+                        </tr>
+                    </tbody>
+        
+                </table>
+    
+             </div>
+        
+            </div>
+  
+  
+      
+  
+    </form>
+  
+  
+  </div>
+

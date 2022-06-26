@@ -1,0 +1,181 @@
+<div class="row">
+    <div class="col-12">
+        <h5>CRUD Sede</h5>
+    </div>
+</div>
+
+<hr>
+
+<div class="row">
+    <div class="col-4">
+        <input type="text" class="form-control" placeholder="Buscar..." (keyup.enter)="buscar($event)">
+    </div>
+    <div class="col-2">
+        <button class="btn btn-primary text-white" data-toggle="modal" data-target="#exampleModal">Registrar</button>
+    </div>
+</div>
+
+<div class="row my-4">
+    <div class="col-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Estado</th>
+                    <th>Código Postal</th>
+                    <th>País</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let sede of sedes">
+                    <td>{{sede.nombre}}</td>
+                    <td>{{sede.direccion}}</td>
+                    <td>
+                        <span *ngIf="sede.estado==1" class="badge">Activo</span>
+                        <span *ngIf="sede.estado==0" class="badge">Inactivo</span>
+                    </td>
+                    <td>{{sede.codigoPostal}}</td>
+                    <td>{{sede.pais?.nombre}}</td>
+                    <td>
+                        <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal2" (click)="actualizarModal(sede)">actualizar</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" (click)="eliminar(sede.idSede)">eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar nueva sede</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form (ngSubmit)="registrar()" [formGroup]="formRegistraActualiza">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                        <div *ngIf="submitted && formRegistraActualiza.controls['nombre'].errors" class="alert alert-danger my-2">       
+                            <ul>
+                                <li>El nombre es obligatorio</li>    
+                                <li>El nombre es de 3 a 30 caracteres</li>    
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion">Dirección</label>
+                        <input type="text" class="form-control" id="direccion" formControlName="direccion">
+                        <div *ngIf="submitted && formRegistraActualiza.controls['direccion'].errors" class="alert alert-danger my-2">       
+                            <ul>
+                                <li>La dirección es obligatoria</li>    
+                                <li>La dirección mínimo de 10 caracteres</li>    
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="codigoPostal">Código Postal</label>
+                        <input type="number" class="form-control" id="codigoPostal" formControlName="codigoPostal">
+                        <div *ngIf="submitted && formRegistraActualiza.controls['direccion'].errors" class="alert alert-danger my-2">       
+                            <ul>
+                                <li>El código postal es obligatorio</li>    
+                                <li>El código postal debe tener de 3 a 6 dígitos</li>    
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pais">País</label>
+                        <select name="pais" id="pais" class="form-control" formControlName="pais">
+                            <option value="-1">Elija el país</option>
+                            <option value="{{pais.idPais}}" *ngFor="let pais of paises">{{pais.nombre}}</option>
+                        </select>
+                        <div *ngIf="submitted && formRegistraActualiza.controls['pais'].errors" class="alert alert-danger my-2">       
+                            <ul>
+                                <li>El país es obligatorio</li>    
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrarModal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal 2-->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar nueva sede</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form (ngSubmit)="actualizar()" [formGroup]="formRegistraActualiza">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nombreActualiza">Nombre</label>
+                        <input type="text" class="form-control" id="nombreActualiza" formControlName="nombre">
+                        <div *ngIf="submitted && formRegistraActualiza.controls['nombre'].errors" class="alert alert-danger my-2">       
+                            <ul>
+                                <li>El nombre es obligatorio</li>    
+                                <li>El nombre es de 3 a 30 caracteres</li>    
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccionActualiza">Dirección</label>
+                        <input type="text" class="form-control" id="direccionActualiza" formControlName="direccion">
+                        <div *ngIf="submitted && formRegistraActualiza.controls['direccion'].errors" class="alert alert-danger my-2">       
+                            <ul>
+                                <li>La dirección es obligatoria</li>    
+                                <li>La dirección mínimo de 10 caracteres</li>    
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="codigoPostalActualiza">Código Postal</label>
+                        <input type="number" class="form-control" id="codigoPostalActualiza" formControlName="codigoPostal">
+                        <div *ngIf="submitted && formRegistraActualiza.controls['direccion'].errors" class="alert alert-danger my-2">       
+                            <ul>
+                                <li>El código postal es obligatorio</li>    
+                                <li>El código postal debe tener de 3 a 6 dígitos</li>    
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="paisActualiza">País</label>
+                        <select name="pais" id="paisActualiza" class="form-control" formControlName="pais">
+                            <option value="-1">Elija el país</option>
+                            <option value="{{pais.idPais}}" *ngFor="let pais of paises">{{pais.nombre}}</option>
+                        </select>
+                        <div *ngIf="submitted && formRegistraActualiza.controls['pais'].errors" class="alert alert-danger my-2">       
+                            <ul>
+                                <li>El país es obligatorio</li>    
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrarModal2">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

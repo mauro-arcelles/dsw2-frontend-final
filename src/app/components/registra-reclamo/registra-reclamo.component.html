@@ -1,0 +1,59 @@
+<div>
+
+    <form class="content" (ngSubmit)="insertaReclamo()" >
+    <div class="submit-form" >
+  
+         <div class="row">
+            <div class="col-lg-12">
+                <h6>Registro de Reclamos </h6>
+            </div>
+        </div>
+  
+        <div class="row" style="margin-top: 3%">
+                <div class="col-lg-6">
+                    <label for="descripcion">Descripción</label>
+                    <input type="text" class="form-control" name="descripcion" id="descripcion" [(ngModel)]="reclamo.descripcion" />
+                </div>
+         </div>
+  
+        <div class="row" style="margin-top: 3%">
+        <div class="col-lg-3">
+            <label for="fechaCompra">Fecha de compra</label>
+            <input type="date"  class="form-control" id="fechaCompra"  name="fechaCompra"  [(ngModel)]="reclamo.fechaCompra" />
+        </div>
+
+            <div class="col-lg-3">
+                <label for="cliente">Cliente</label>
+                <select  id="cliente" name="cliente" class="form-control" [(ngModel)]="reclamo!.cliente!.idCliente">
+                <option value="-1"> [Seleccione] </option>  
+                <option *ngFor=" let aux of cliente" value="{{aux.idCliente}}">
+                        {{aux.nombres}}
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-lg-3">
+                <label for="tipoReclamo">Tipo de reclamo</label>
+                <select  id="tipoReclamo" name="tipoReclamo" class="form-control" [(ngModel)]="reclamo!.tipoReclamo!.idTipoReclamo">
+                    <option value="-1"> [Seleccione] </option>  
+                    <option *ngFor="let aux of tiporeclamo" value="{{aux.idTipoReclamo}}">
+                        {{aux.descripcion}}
+                    </option>
+
+                </select>
+            </div>
+        </div>
+  
+        <div class="row" style="margin-top: 3%"> 
+                <div class="col-lg-12">
+                    <button class="btn btn-success"  >Enviar</button>
+                </div>
+        </div>
+  
+    
+      </div>
+  
+     </form>
+  
+  
+    </div>

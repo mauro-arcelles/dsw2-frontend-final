@@ -1,0 +1,85 @@
+<div>
+
+  <form class="content" (ngSubmit)="agregarCliente()">
+    <div class="submit-form">
+
+      <div class="row">
+        <div class="col-lg-12">
+          <h6>Registro de Cliente </h6>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 3%">
+        <div class="col-lg-6">
+          <label for="nombres">Nombres</label>
+          <input type="text" class="form-control" name="nombres" id="nombres" [(ngModel)]="cliente.nombres" />
+        </div>
+
+        <div class="col-lg-6">
+          <label for="apellidos">Apellidos</label>
+          <input type="text" class="form-control" name="apellidos" id="apellidos" [(ngModel)]="cliente.apellidos" />
+        </div>
+
+        <div class="col-lg-6">
+          <label for="fechaNacimiento">Fecha nacimiento</label>
+          <input type="date" class="form-control" name="fechaNacimiento" id="fechaNacimiento"
+            [(ngModel)]="cliente.fechaNacimiento" />
+        </div>
+
+        <div class="col-lg-3">
+          <label for="dni">DNI</label>
+          <input type="text" class="form-control" name="dni" id="dni" maxlength="8" [(ngModel)]="cliente.dni" />
+        </div>
+
+        <div class="col-lg-3">
+          <label for="correo">Correo</label>
+          <input type="text" class="form-control" name="correo" id="correo" [(ngModel)]="cliente.correo" />
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 3%">
+        <div class="col-lg-3">
+          <label for="direccion">Dirección</label>
+          <input type="text" class="form-control" id="direccion" name="direccion" [(ngModel)]="cliente.direccion" />
+        </div>
+
+        <div class="col-lg-3">
+          <label for="departamento">Departamento</label>
+          <select id="departamento" name="departamento" class="form-control" [(ngModel)]="departamento"
+            (change)="listarProvincias(departamento)">
+            <option value="-1"> [Seleccione] </option>
+            <option *ngFor="let item of departamentos" value="{{item}}">{{item}}</option>
+          </select>
+        </div>
+
+        <div class="col-lg-3">
+          <label for="provincia">Provincia</label>
+          <select id="provincia" name="provincia" class="form-control" [(ngModel)]="provincia"
+            (change)="listarDistritos(departamento,provincia)">
+            <option value="-1"> [Seleccione] </option>
+            <option *ngFor="let item of provincias" value="{{item}}">{{item}}</option>
+          </select>
+        </div>
+
+        <div class="col-lg-3">
+          <label for="distrito">Distrito</label>
+          <select id="distrito" name="distrito" class="form-control" [(ngModel)]="cliente.ubigeo!.idUbigeo">
+            <option value="-1"> [Seleccione] </option>
+            <option *ngFor="let item of distritos" value="{{item.idUbigeo}}">{{item.distrito}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 3%">
+        <div class="col-lg-12">
+          <button class="btn btn-success">Enviar</button>
+        </div>
+      </div>
+
+
+    </div>
+
+  </form>
+
+
+</div>

@@ -1,0 +1,15 @@
+.submit-form {
+    padding: 5%;
+    margin: auto;
+}
+
+.error { 
+    color: yellow;
+}
+
+.invalid {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 90%;
+    color: green;
+}

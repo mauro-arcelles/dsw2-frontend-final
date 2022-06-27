@@ -10,8 +10,8 @@ import { Component } from '@angular/core';
 
 
 export class AppComponent {
-  
-  title = 'Sistema de DAWII - Jacinto';
+
+  title = 'Proyecto Final DAW2 - Arcelles';
 
   constructor(http: HttpClient ){
 

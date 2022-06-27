@@ -1,4 +1,4 @@
 export const environment = {
-  API_ENDPOINT: 'http://localhost:8090/url/',
+  API_ENDPOINT: 'https://daw2-pry-final.herokuapp.com/url/',
   production: true
 };

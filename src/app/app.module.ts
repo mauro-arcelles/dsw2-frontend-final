@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -30,6 +30,7 @@ import { ConsultaComprobanteComponent } from './components/consulta-comprobante/
 import { LoginComponent } from './auth/login/login.component';
 import { IndexComponent } from './index/index.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -69,11 +70,11 @@ import { MenuComponent } from './components/menu/menu.component';
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
+    ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
     AppRoutingModule
   ],
   providers: [
-
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

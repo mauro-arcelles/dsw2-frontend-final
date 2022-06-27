@@ -5,8 +5,8 @@ import { Sede } from '../models/sede.model';
 import { AppSettings } from '../app.settings';
 import { environment } from '../../environments/environment';
 
-const baseUrlUtil = environment.API_ENDPOINT+ '/util';
-const baseUrlSede = environment.API_ENDPOINT+ '/sede';
+const baseUrlUtil = environment.API_ENDPOINT+ 'util';
+const baseUrlSede = environment.API_ENDPOINT+ 'sede';
 
 @Injectable({
   providedIn: 'root'

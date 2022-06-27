@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 const TOKEN_KEY = 'AuthToken';
@@ -5,6 +6,8 @@ const USERNAME_KEY = 'AuthUserName';
 const AUTHORITIES_KEY = 'AuthAuthorities';
 const NAME_KEY = 'AuthName';
 const USER_ID_KEY = 'AuthUserId';
+
+let httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
 @Injectable({
   providedIn: 'root'
@@ -77,5 +80,13 @@ export class TokenService {
     let token = this.getToken();
     if (token) return true;
     return false;
+  }
+
+  public agregarAuthorizationHeader(){
+    let token = this.getToken();
+    if (token != null){
+      return httpHeaders.append('Authorization','Bearer '+token);
+    }
+    return httpHeaders;
   }
 }

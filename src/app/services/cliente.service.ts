@@ -1,11 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AppSettings } from '../app.settings';
 import { Cliente } from '../models/cliente.model';
 import { environment } from '../../environments/environment';
+import { TokenService } from '../auth/token.service';
 
-const baseUrlUtil = "http://localhost:8090/url/util/listaCliente";
+const baseUrlUtil = environment.API_ENDPOINT + 'util/listaCliente';
 const baseUrlCliente = environment.API_ENDPOINT + 'cliente';
 
 @Injectable({
@@ -14,14 +14,15 @@ const baseUrlCliente = environment.API_ENDPOINT + 'cliente';
 export class ClienteService {
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private _tokenService: TokenService) { }
 
   listaCliente(): Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(baseUrlUtil);
+    return this.http.get<Cliente[]>(baseUrlUtil, { headers: this._tokenService.agregarAuthorizationHeader() });
   }
 
   agregarCliente(cliente: Cliente): Observable<any> {
-    return this.http.post(baseUrlCliente, cliente);
+    return this.http.post(baseUrlCliente, cliente, { headers: this._tokenService.agregarAuthorizationHeader() });
   }
 
   listaClienteParametros(nombre: string, dni: string, idUbigeo: number, estado: number): Observable<any> {
@@ -31,24 +32,24 @@ export class ClienteService {
       .set("idUbigeo", idUbigeo)
       .set("estado", estado.toString());
 
-    return this.http.get<any>(baseUrlCliente + "/listaPorParametros", { params });
+    return this.http.get<any>(baseUrlCliente + "/listaPorParametros", { params, headers: this._tokenService.agregarAuthorizationHeader() });
 
   }
 
   listaClienteCrud(filtro: string): Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(baseUrlCliente + "/listaClientePorNombreLike/" + filtro);
+    return this.http.get<Cliente[]>(baseUrlCliente + "/listaClientePorNombreLike/" + filtro, { headers: this._tokenService.agregarAuthorizationHeader() });
   }
 
   registraCliente(obj: Cliente): Observable<any> {
-    return this.http.post(baseUrlCliente + "/registraCliente", obj);
+    return this.http.post(baseUrlCliente + "/registraCliente", obj, { headers: this._tokenService.agregarAuthorizationHeader() });
   }
 
   actualizaCliente(obj: Cliente): Observable<any> {
-    return this.http.put(baseUrlCliente + "/actualizaCliente", obj);
+    return this.http.put(baseUrlCliente + "/actualizaCliente", obj, { headers: this._tokenService.agregarAuthorizationHeader() });
   }
 
   eliminaCliente(id: any): Observable<any> {
-    return this.http.delete(baseUrlCliente + "/eliminaCliente/" + id);
+    return this.http.delete(baseUrlCliente + "/eliminaCliente/" + id, { headers: this._tokenService.agregarAuthorizationHeader() });
   }
 
 }

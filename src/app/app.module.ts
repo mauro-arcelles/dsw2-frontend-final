@@ -30,7 +30,6 @@ import { ConsultaComprobanteComponent } from './components/consulta-comprobante/
 import { LoginComponent } from './auth/login/login.component';
 import { IndexComponent } from './index/index.component';
 import { MenuComponent } from './components/menu/menu.component';
-import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -74,7 +73,6 @@ import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
     AppRoutingModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

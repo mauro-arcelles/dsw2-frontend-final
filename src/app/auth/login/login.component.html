@@ -7,7 +7,7 @@
           <p class="text-white"> Please enter your login and password!</p>
           <input type="text" name="login" placeholder="Username" [(ngModel)]="loginUsuario.login">
           <input type="password" name="password" placeholder="Password" [(ngModel)]="loginUsuario.password">
-          <a class="forgot text-white">Forgotpassword?</a>
+          <a class="forgot text-white" routerLink="/auth/register">Don't have an account?</a>
           <button type="submit" name="loginButton" [disabled]="loading">
             <span><i [ngClass]="{'fa fa-refresh fa-spin': loading }"></i>
               Login

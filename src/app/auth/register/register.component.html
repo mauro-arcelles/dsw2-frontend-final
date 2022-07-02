@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <form class="box" (ngSubmit)="onRegister()">
+          <h1>Register</h1>
+          <p class="text-white"> Please enter your login and password!</p>
+          <input type="text" name="nombres" placeholder="Nombres" [(ngModel)]="registerUsuario.nombres">
+          <input type="text" name="apellidos" placeholder="Apellidos" [(ngModel)]="registerUsuario.apellidos">
+          <input type="text" name="dni" maxlength="8" minlength="8" placeholder="DNI" [(ngModel)]="registerUsuario.dni">
+          <input type="text" name="login" placeholder="Username" [(ngModel)]="registerUsuario.login">
+          <input type="password" name="password" placeholder="Password" [(ngModel)]="registerUsuario.password">
+          <input type="password" name="password2" placeholder="Confirm password" [(ngModel)]="confirmPassword">
+          <a class="forgot text-white" routerLink="/auth/login">Already have an account? Login in here</a>
+          <button type="submit" name="loginButton" [disabled]="loading">
+            <span><i [ngClass]="{'fa fa-refresh fa-spin': loading }"></i>
+              Register
+            </span>
+          </button>
+          <div class="col-md-12">
+            <ul class="social-network social-circle">
+              <li><a href="#" class="icoFacebook" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+              <li><a href="#" class="icoTwitter" title="Twitter"><i class="fab fa-twitter"></i></a></li>
+              <li><a href="#" class="icoGoogle" title="Google +"><i class="fab fa-google-plus"></i></a></li>
+            </ul>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

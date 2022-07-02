@@ -34,7 +34,7 @@ import { DashboardGuard } from './auth/guards/dashboard.guard';
 
 
 const routes: Routes = [
-  { path: 'login', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule), canActivate: [AuthGuard], canLoad: [AuthGuard] },
+  { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule), canActivate: [AuthGuard], canLoad: [AuthGuard] },
   {
     path: '',
     component: IndexComponent,

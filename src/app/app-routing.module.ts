@@ -72,7 +72,7 @@ const routes: Routes = [
     canLoad: [DashboardGuard]
   }
   ,
-  { path: "**", redirectTo: "login" }
+  { path: "**", redirectTo: "auth" }
 
 ];
 
